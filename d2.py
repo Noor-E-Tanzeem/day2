@@ -1,3 +1,4 @@
+
 import streamlit as st
 import torch
 from diffusers import StableDiffusionPipeline
@@ -37,4 +38,15 @@ if st.button("Generate Image"):
         st.warning("Please enter a prompt")
     else:
         with st.spinner("Generating image... Please wait ⏳"):
-            image = pipe(
+            result = pipe(
+                prompt,
+                num_inference_steps=15,
+                guidance_scale=7.5
+            )
+            image = result.images[0]
+
+            st.image(
+                image,
+                caption="Generated Image",
+                use_column_width=True
+            )
